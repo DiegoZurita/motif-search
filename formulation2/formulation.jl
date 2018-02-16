@@ -55,11 +55,20 @@ vertices_colors_file = "data/sample1/vertices_colors.csv"
 motify_frequency_file = "data/sample1/motify_frequency_description.csv"
 
 vertices_colors = readcsv(vertices_colors_file)
+
 motify_frequency = readcsv(motify_frequency_file)
+number_of_colors = size(motify_frequency)[2]
+
+
+vertices_by_color = [Int64[] for i = 1:number_of_colors]
+
+for i = 1:size(vertices_colors)[2]
+	push!(vertices_by_color[_getVericeColor(i, vertices_colors)], i)
+end 
+
 
 edges_file_lines = readlines(edges_file)
 number_of_vertices = size(edges_file_lines)[1]
-
 adjacency_list = Array{Array{Int64}}(number_of_vertices)
 
 for i = 1:number_of_vertices	
@@ -88,6 +97,7 @@ m = Model(solver=CbcSolver())
 @objective(m, Min, sum(x))
 
 
+
 for i = 1:number_of_vertices
 
 	#Cada vertice tem no maximo um representante
@@ -100,5 +110,56 @@ for i = 1:number_of_vertices
 	@constraint(m, r <= 1)
 
 end
+
+
+
+
+
+for i = 1:number_of_colors
+
+	#color restrcition
+	c = AffExpr()
+
+	for vertice in vertices_by_color[i]
+		for representante in R[vertice]
+			#println("vertice ", vertice , " representadi por ", representante)
+			c += x[vertice, representante]
+		end
+	end
+
+	@constraint(m, c == motify_frequency[i])
+end
+
+#RENAME
+egdes_pos_in_formulation = Tuple{String, Int64}[]
+number_of_edges_var = 1
+
+edges = Tuple{Int64, Int64}[]
+
+for i = 1:number_of_vertices
+	#para cada aresta
+	for j in adjacency_list[i]
+		if j > i 
+			push!(edges, (i, j))
+			R_i_j = intersect(R[i], R[j])
+
+			#para cada vertice na interseccao de R(i) e R(j)
+			for representante in R_i_j
+				#println("edge ", edge, " representado por ", representante)
+				@variable(m, y[number_of_edges_var], Bin)
+
+				@constraint(m, y[number_of_edges_var] <= x[i, representante])
+				@constraint(m, y[number_of_edges_var] <= x[j, representante])
+
+				push!(egdes_pos_in_formulation, ("$(i)-$(j)-$(representante)", number_of_edges_var))
+
+				number_of_edges_var += 1 
+			end
+		end
+	end
+end
+
+egdes_pos_dict = Dict(egdes_pos_in_formulation)
+
 
 println("Model: ", m)
