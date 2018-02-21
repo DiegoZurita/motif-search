@@ -3,16 +3,20 @@ using Cbc
 
 ##########################METHODS########################################
 
-function _enraizar(edges, v, cur, p) 
+SEM_PAI = 0
+RELAXADO = true
 
-	if v[cur] != 0
+
+function _enraizar(adj_list, parents, cur, p) 
+
+	if parents[cur] != SEM_PAI
 		return
 	end
 
-	v[cur] = p
+	parents[cur] = p
 
-	for i in edges[cur]
-		_enraizar(edges, v, i, cur)
+	for i in adj_list[cur]
+		_enraizar(adj_list, parents, i, cur)
 	end
 end
 
@@ -22,7 +26,7 @@ function _getVericeColor(u, vertices_colors)
 end
 
 
-function _constructR(tree, u, motify_frequency, vertices_colors)
+function _constructR(parents, u, motify_frequency, vertices_colors)
 
 	number_of_colors = size(motify_frequency)[2]
 	cur_colors = zeros(Int64, number_of_colors)
@@ -36,23 +40,27 @@ function _constructR(tree, u, motify_frequency, vertices_colors)
 
 		cur_colors[_getVericeColor(p, vertices_colors)] += 1
 
-		if motify_frequency[_getVericeColor(p, vertices_colors)] - cur_colors[_getVericeColor(p, vertices_colors)] < 0
+		if cur_colors[_getVericeColor(p, vertices_colors)] > motify_frequency[_getVericeColor(p, vertices_colors)] 
 			break
 		end
 
 		push!(r, p)
 
-		p = tree[p]
+		p = parents[p]
 	end
 
 	return r
 end
 
-########################################################################
+function ehRaiz(vertice, parents)
+	return parents[vertice] == -1
+end
 
-edges_file = open("data/sample1/edges.csv")
-vertices_colors_file = "data/sample1/vertices_colors.csv"
-motify_frequency_file = "data/sample1/motify_frequency_description.csv"
+############################Read input ##################################
+
+edges_file = open("data/sample2/edges.csv")
+vertices_colors_file = "data/sample2/vertices_colors.csv"
+motify_frequency_file = "data/sample2/motify_frequency_description.csv"
 
 vertices_colors = readcsv(vertices_colors_file)
 
@@ -77,14 +85,16 @@ end
 
 close(edges_file)
 
-tree = zeros(Int64, number_of_vertices)
-_enraizar(adjacency_list, tree, 4, -1)
+parents = zeros(Int64, number_of_vertices)
+_enraizar(adjacency_list, parents, 11, -1)
+
+println("parents: ", parents)
 
 
 R = Array{Array{Int64}}(number_of_vertices)
 
 for i in 1:number_of_vertices
-	R[i] = _constructR(tree, i, motify_frequency, vertices_colors)
+	R[i] = _constructR(parents, i, motify_frequency, vertices_colors)
 end
 
 
@@ -95,12 +105,25 @@ vertices_represented_by = [[] for i = 1: number_of_vertices]
 
 
 m = Model(solver=CbcSolver())
-@variable(m, x[1:number_of_vertices, 1:number_of_vertices], Bin)
+###
+#@variable(m, 0 <= x[1:number_of_vertices, 1:number_of_vertices] <= 1)
+if RELAXADO
+	@variable(m, 0 <= x[1:number_of_vertices, 1:number_of_vertices] <= 1)
+else
+	@variable(m, x[1:number_of_vertices, 1:number_of_vertices], Bin)
+end
 
-@objective(m, Min, sum(x))
+#@objective(m, Min, sum(x[i = 1:number_of_vertices, j = i:i]))
+
+objectiveExpr = AffExpr()
+
+for i in 1:number_of_vertices
+	objectiveExpr += x[i, i]	
+end
+
+@objective(m, Min, objectiveExpr)
 
 # Popular vertices_represented_by
-
 for vertice = 1:number_of_vertices
 	for representante in R[vertice]
 		push!(vertices_represented_by[representante], vertice)
@@ -108,6 +131,7 @@ for vertice = 1:number_of_vertices
 end
 
 
+### Restricao 1 
 for i = 1:number_of_vertices
 
 	#Cada vertice tem no maximo um representante
@@ -121,9 +145,16 @@ for i = 1:number_of_vertices
 
 end
 
+### Restricao 2
+for u = 1:number_of_vertices
+	for v in R[u]
+		@constraint(m, x[u, v] <= x[v, v])
+	end
+end
 
 
 
+### Restricao 3
 for i = 1:number_of_colors
 
 	#color restrcition
@@ -139,9 +170,10 @@ for i = 1:number_of_colors
 	@constraint(m, c == motify_frequency[i])
 end
 
-#RENAME
-egdes_pos_in_formulation = Tuple{String, JuMP.Variable}[]
 
+
+### Restricao 4
+egdes_pos_in_formulation = Tuple{String, JuMP.Variable}[]
 
 for i = 1:number_of_vertices
 	#para cada aresta
@@ -154,10 +186,17 @@ for i = 1:number_of_vertices
 
 				key = "$(i)-$(j)-$(representante)"
 
-				push!(
-					egdes_pos_in_formulation, 
-					( key, @variable(m, category = :Bin, basename = key) )
-				)
+				if RELAXADO
+					push!(
+						egdes_pos_in_formulation, 
+						( key, @variable(m, basename = key, lowerbound = 0, upperbound = 1) )
+					)
+				else
+					push!(
+						egdes_pos_in_formulation, 
+						( key, @variable(m, category = :Bin, basename = key) )
+					)
+				end
 
 				new_var = egdes_pos_in_formulation[end][2]
 
@@ -173,39 +212,43 @@ end
 
 egdes_pos_dict = Dict(egdes_pos_in_formulation)
 
-
+### Restricao 4
 for representante in 1:number_of_vertices
 
-	verticesExpr = AffExpr()
-	edgesExpr = AffExpr()
+	expr = AffExpr()
 
 	for u in vertices_represented_by[representante]
-		verticesExpr += x[u, representante]
+		expr += x[u, representante]
 	end
 
 	for v in edges_represented_by[representante]
-		edgesExpr += egdes_pos_dict["$(v[1])-$(v[2])-$(representante)"]
+		expr -= egdes_pos_dict["$(v[1])-$(v[2])-$(representante)"]
 	end
 
-	@constraint(m, verticesExpr - edgesExpr <= 1)
+	@constraint(m, expr <= 1)
 
 end
 
 
-####### Last constraint
-for u = 1:number_of_vertices
-	for v in R[u]
-		@constraint(m, x[u, v] <= x[v, v])
-	end
-end
-
-
+println("R: ", R)
 
 println("Model: ", m)
 solve(m)
 
 println("Objective value: ", getobjectivevalue(m))
-println("x: ", getvalue(x))
+#println("x: ", getvalue(x))
+
+for i in 1:number_of_vertices
+	for j in R[i]
+
+		val = getvalue(x[i, j])
+
+		if val != 0
+			println("x[$(i), $(j)]: ", val)
+		end
+
+	end
+end
 
 for r in egdes_pos_dict
 	println(r[1], " : ", getvalue(r[2]))
