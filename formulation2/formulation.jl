@@ -4,7 +4,7 @@ using Cbc
 ##########################METHODS########################################
 
 SEM_PAI = 0
-RELAXADO = true
+RELAXADO = false
 
 
 function _enraizar(adj_list, parents, cur, p) 
@@ -88,8 +88,6 @@ close(edges_file)
 parents = zeros(Int64, number_of_vertices)
 _enraizar(adjacency_list, parents, 11, -1)
 
-println("parents: ", parents)
-
 
 R = Array{Array{Int64}}(number_of_vertices)
 
@@ -106,19 +104,40 @@ vertices_represented_by = [[] for i = 1: number_of_vertices]
 
 m = Model(solver=CbcSolver())
 ###
-#@variable(m, 0 <= x[1:number_of_vertices, 1:number_of_vertices] <= 1)
-if RELAXADO
-	@variable(m, 0 <= x[1:number_of_vertices, 1:number_of_vertices] <= 1)
-else
-	@variable(m, x[1:number_of_vertices, 1:number_of_vertices], Bin)
+
+vertices_pos_in_formulation = Tuple{String, JuMP.Variable}[]
+
+for u in 1:number_of_vertices
+	for v in R[u]
+		key = "$(u)-$(v)"
+
+
+		if RELAXADO
+			push!(
+				vertices_pos_in_formulation, 
+				( key, @variable(m, basename = key, lowerbound = 0, upperbound = 1) )
+			)
+		else
+			push!(
+				vertices_pos_in_formulation, 
+				( key, @variable(m, category = :Bin, basename = key) )
+			)
+		end
+
+
+		new_var = vertices_pos_in_formulation[end][2]
+
+		setname(new_var, key)
+	end
 end
 
-#@objective(m, Min, sum(x[i = 1:number_of_vertices, j = i:i]))
+vertices_pos_dict = Dict(vertices_pos_in_formulation)
+
 
 objectiveExpr = AffExpr()
 
 for i in 1:number_of_vertices
-	objectiveExpr += x[i, i]	
+	objectiveExpr += vertices_pos_dict["$(i)-$(i)"]
 end
 
 @objective(m, Min, objectiveExpr)
@@ -138,7 +157,7 @@ for i = 1:number_of_vertices
 	r = AffExpr()
 
 	for j in R[i]
-		r += x[i, j]
+		r += vertices_pos_dict["$(i)-$(j)"]
 	end
 
 	@constraint(m, r <= 1)
@@ -148,7 +167,7 @@ end
 ### Restricao 2
 for u = 1:number_of_vertices
 	for v in R[u]
-		@constraint(m, x[u, v] <= x[v, v])
+		@constraint(m, vertices_pos_dict["$(u)-$(v)"] <= vertices_pos_dict["$(v)-$(v)"])
 	end
 end
 
@@ -163,7 +182,7 @@ for i = 1:number_of_colors
 	for vertice in vertices_by_color[i]
 		for representante in R[vertice]
 			#println("vertice ", vertice , " representadi por ", representante)
-			c += x[vertice, representante]
+			c += vertices_pos_dict["$(vertice)-$(representante)"]
 		end
 	end
 
@@ -200,8 +219,10 @@ for i = 1:number_of_vertices
 
 				new_var = egdes_pos_in_formulation[end][2]
 
-				@constraint(m, new_var <= x[i, representante])
-				@constraint(m, new_var <= x[j, representante])
+				setname(new_var, key)	
+
+				@constraint(m, new_var <= vertices_pos_dict["$(i)-$(representante)"])
+				@constraint(m, new_var <= vertices_pos_dict["$(j)-$(representante)"])
 
 				push!(edges_represented_by[representante], (i, j))
 
@@ -218,7 +239,7 @@ for representante in 1:number_of_vertices
 	expr = AffExpr()
 
 	for u in vertices_represented_by[representante]
-		expr += x[u, representante]
+		expr += vertices_pos_dict["$(u)-$(representante)"]
 	end
 
 	for v in edges_represented_by[representante]
@@ -230,26 +251,26 @@ for representante in 1:number_of_vertices
 end
 
 
-println("R: ", R)
-
+writeMPS(m, "motify-formulation-2.mps")
 println("Model: ", m)
 solve(m)
 
 println("Objective value: ", getobjectivevalue(m))
 #println("x: ", getvalue(x))
 
-for i in 1:number_of_vertices
-	for j in R[i]
+for r in vertices_pos_dict
+	val = getvalue(r[2])
 
-		val = getvalue(x[i, j])
-
-		if val != 0
-			println("x[$(i), $(j)]: ", val)
-		end
-
+	if val != 0
+		println(getname(r[2]), " : ", val)
 	end
 end
 
 for r in egdes_pos_dict
-	println(r[1], " : ", getvalue(r[2]))
+
+	val = getvalue(r[2])
+
+	if val != 0
+		println(getname(r[2]), " : ", val)
+	end
 end
