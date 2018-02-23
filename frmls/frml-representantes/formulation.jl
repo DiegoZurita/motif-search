@@ -1,6 +1,7 @@
 using JuMP
 using Cbc
 
+
 ##########################METHODS########################################
 
 SEM_PAI = 0
@@ -58,9 +59,12 @@ end
 
 ############################Read input ##################################
 
-edges_file = open("data/sample2/edges.csv")
-vertices_colors_file = "data/sample2/vertices_colors.csv"
-motify_frequency_file = "data/sample2/motify_frequency_description.csv"
+folder = "../../instancias/SC"
+
+edges_file = open("$(folder)/edges.csv")
+vertices_colors_file = "$(folder)/vertices_colors.csv"
+motify_frequency_file = "$(folder)/motify-1-355-194.csv"
+
 
 vertices_colors = readcsv(vertices_colors_file)
 
@@ -110,6 +114,7 @@ vertices_pos_in_formulation = Tuple{String, JuMP.Variable}[]
 for u in 1:number_of_vertices
 	for v in R[u]
 		key = "$(u)-$(v)"
+		println(key)
 
 
 		if RELAXADO
@@ -137,7 +142,9 @@ vertices_pos_dict = Dict(vertices_pos_in_formulation)
 objectiveExpr = AffExpr()
 
 for i in 1:number_of_vertices
-	objectiveExpr += vertices_pos_dict["$(i)-$(i)"]
+	if haskey(vertices_pos_dict, "$(i)-$(i)")
+		objectiveExpr += vertices_pos_dict["$(i)-$(i)"]
+	end
 end
 
 @objective(m, Min, objectiveExpr)
@@ -251,7 +258,7 @@ for representante in 1:number_of_vertices
 end
 
 
-writeMPS(m, "motify-formulation-2.mps")
+writeMPS(m, "frml_representante-inteira-motify-1-355-194.mps")
 println("Model: ", m)
 solve(m)
 

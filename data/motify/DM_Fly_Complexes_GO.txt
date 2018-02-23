@@ -1,0 +1,145 @@
+
+SAGA complex	 Ada2b not Pcaf Sgf11 Spt3 Taf10 Taf5
+dystrobrevin complex	 Dyb
+eukaryotic translation initiation factor 2 complex	 AGO1 CG33158 CG7414
+RCAF complex	 asf1 His3 His4
+inner kinetochore of condensed nuclear chromosome	 cid Pi3K59F
+mitochondrial respiratory chain complex I	 CG10320 CG11423 CG11455 CG11913 CG12079 CG12203 CG12400 CG12859 CG15434 CG18624 CG1970 CG2014 CG3192 CG3214 CG32230 CG34439 CG3446 CG3621 CG3683 CG5548 CG5703 CG6020 CG6463 CG6485 CG6914 CG7598 CG7712 CG8102 CG8680 CG9140 CG9172 CG9306 ND23 ND42 ND75 Pdsw
+NMS complex	 Kmn1 Nnf1a Nnf1b CG3756 RpI1 RpI12 RpI135
+signal recognition particle receptor complex	 sec63 SrpRbeta
+striated muscle thick filament	 fln Mhc Prm
+NuA4 histone acetyltransferase complex	 DMAP1 Eaf6 CG17691 CG8199
+kinesin II complex	 Kap3 CG2156 gfA
+PCNA complex	 mus209
+signal peptidase complex	 Spase12 Spase25
+transcription elongation factor complex b	 Cdk9 CycT Cyp1
+holo TFIIH complex	 Cdk7 CycH hay Mat1 Ssl1 Tfb1 Tfb2 Tfb4 Xpd
+transcription factor TFIIIB complex	 Brf Taf105 Tbp
+mRNA cap binding complex	 CG7907 NAT1
+NuRD complex	 Rpd3
+myosin complex	 CG15831 CG17237 CG31638 CG34435 ck cnn d didum jar Mhc Mhcl Mlc1 Mlc2 Myo10A Myo28B1 Myo31DF Myo61F Myo95E ninaC zip HisCl1 ort
+kinetochore	 Bub3 BubR1 cal1 chb cid cmet Dhc64C fzy Gc70 Gl ial Kmn1 Kmn2 mad2 Mis12 Ndc80 Nnf1a Nnf1b Nuf2 polo rod Sgt1 Spc25 Spindly zwilch Atet bw CG10505 CG11069 CG11147 CG12703 CG14709 CG1494 CG1703 CG1718 CG17646 CG1801 CG2316 CG31121 CG3164 CG31689 CG31731 CG31792 CG31793 CG32091 CG33173 CG33970 CG34120 CG4225 CG4562 CG4822 CG5789 CG5853 CG6052 CG7627 CG7955 CG8908 CG9270 CG9281 CG9330 CG9663 CG9664 CG9990 E23 st w
+bursicon neuropeptide hormone complex	 burs pburs
+DNA replication factor A complex	 CG15220 RPA2 Pi3K21B Pi3K92E
+filamentous actin	 f jar sn
+mitochondrial oxoglutarate dehydrogenase complex	 CG33791 CG5214 CG5599 Nc73EF
+fibrinogen complex	 sca
+DNA replication factor C complex	 CG8142 Gnf1 RfC3 RfC38 RfC4 RfC40
+proteasome complex	 CG13349 CG13779 CG31742 CG8858 Mov34 Pomp Pros25 Pros26 Pros29 Pros35 Pros45 Pros54 Prosbeta3 ProsMA5 REG Rpn6 Rpt3R StIP TER94 CG6255 Scsalpha Sucb dik Rpb4
+transcription factor TFIIE complex	 TfIIEalpha TfIIEbeta Gyc88E Gycalpha99B Gycbeta100B
+ecdysone receptor holocomplex	 EcR tai usp Klp61F Klp68D sub
+muscle myosin complex	 Mhc Mlc1 Mlc2 CG10731 CG1746 CG3321 CG4692
+ferritin complex	 Fer1HCH Fer2LCH Fer3HCH
+unconventional myosin complex	 ck jar Myo10A ninaC sqh zip
+phosphorylase kinase complex	 CG7766 CG8475 PhKgamma CG3397 eag elk Hk sei Sh Shab Shal Shaw CG12304 CG8235 CG4050 CG5038
+clathrin vesicle coat	 CG9132 Chc Clc CycA CycB CycC CycE Cyp1 Pbp49
+larval serum protein complex	 CG11538 CG8100 Lsp1alpha Lsp1beta Lsp1gamma Lsp2
+fatty acid synthase complex	 CG17374
+protein complex	 Ercc1 GlyP mus312 SRm160
+myosin phosphatase complex	 Mbs
+eukaryotic translation initiation factor 3 complex	 Adam CG10306 CG10881 CG4810 CG8335 CG8443 CG8636 CG9769 Int6 pix Trip1
+clathrin coat of synaptic vesicle	 Chc
+transcription factor TFIIF complex	 ear TfIIFalpha TfIIFbeta
+intracellular cyclic nucleotide activated cation channel complex	 CG17922 Cng
+chromatin accessibility complex	 Acf1 Iswi
+prefoldin complex	 CG10635 CG15676 CG6719 CG7048 CG7770
+mitochondrial inner membrane presequence translocase complex	 CG11779 CG1724 CG31229 Tim10 Tim13 Tim17a1 Tim17a2 Tim17b1 Tim17b2 Tim8 Tim9a Tim9b
+exocyst	 exo70 exo84 P71 sec10 sec15 sec3 sec5 sec6 sec8 Sem1 CG16940 Csl4 Dis3 Mtr3 Rrp4 Rrp45 Rrp46 Ski6 bic CG4415 Nacalpha Atac1 Hcf Pcaf Rpb4 g
+troponin complex	 up wupA
+GINS complex	 Psf1 Psf2 Psf3 Sld5 CG31812
+Myb complex	 Caf1 Dp E2f2 mip120 mip130 mip40 Myb Rbf Rbf2 Rpd3 Irbp Ypf1a CG17760 CG17766 CG2812 CG3004 CG30054 cta Galpha49B Galpha73B Gbeta13F Gbeta5 Gbeta76C Ggamma1 Ggamma30A
+protein farnesyltransferase complex	 CG2976 FTasealpha cdc16 cdc23 CG11419 ida lmg mr shtd
+mitochondrial electron transfer flavoprotein complex	 CG7834 wal
+clathrin coat of coated pit	 Chc Clc ncd CG12007 CG17565 Rep CG11963
+mitochondrial respiratory chain complex IV	 CG10396 CG10664 CG11015 CG11043 CG14077 CG14235 CG18193 CG18809 CG2249 CG7181 CG9603 CoVa cype levy
+mitochondrial pyruvate dehydrogenase complex	 CG5261 muc SNF1A Caki CaMKII CG3626
+protein kinase CK2 complex	 CkIIalpha CkIIbeta CkIIbeta2 Ste Ste12DOR
+ionotropic glutamate receptor complex	 CG10101 KaiRIA trp
+chromosome passenger complex	 aust borr
+endopeptidase Clp complex	 CG4538
+oligosaccharyl transferase complex	 CG13393 CG33303 OstStt3
+dynein complex	 Cdlc2 CG10822 CG10834 CG10839 CG10859 CG13930 CG14763 CG14838 CG1571 CG16837 CG17150 CG31275 CG3339 CG6971 CG7051 CG7276 CG8407 CG9313 CG9492 ctp Dlc90F Dlic2 klar robl robl22E robl37BC robl62A Sdic
+transcription factor complex	 Brf Caf1 CG13176 Dref ey eyg gsb Iswi p230 p250 p29 p300 p47H pan prd Ptx1 TfIIB toe tral Trf Trf2
+mRNA cleavage factor complex	 CG3689 CG7185 Pcf11
+Ndc80 complex	 Kmn1 Kmn2 Mis12 Ndc80 Nnf1a Nnf1b Nuf2 Spc25
+mediator complex	 Arc42 Cdk8 CycC ix kto MED1 MED10 MED11 MED14 MED15 MED16 MED17 MED18 MED19 MED20 MED21 MED22 MED23 MED24 MED25 MED26 MED27 MED28 MED30 MED31 MED4 MED6 MED7 MED8 MED9 skd
+cohesin complex	 Cap ord Rad21 SA Sce SMC1 SMC2
+nuclear ubiquitin ligase complex	 CG11261 CG15800 gft lin19 ppa skpF MED20
+VCB complex	 Vhl CG11828 CG15539 CG18749 CG31016 CG32199 CG32201 CG34345 CG4174 CG9698 PH4alphaEFB PH4alphaMP PH4alphaNE1 PH4alphaNE2 PH4alphaNE3 PH4alphaPV PH4alphaSG1 PH4alphaSG2 CG11910 CG32055 btb CG12267 CG17209 CG33785 CG3756 CG5380 CG7339 RpIII128 Tbp Caf1 esc p168 Rpd3
+transcription factor TFIIA complex	
+PRC1 complex	 Pc Psc Sce Scm z
+transcription elongation factor complex	 CG10535 CG6907 EloA Elp3 Grip128 Grip163 Grip71 Grip75
+sarcoglycan complex	 Scgalpha Scgbeta Scgdelta CG31938 Rrp45 Rpb10 Rpb11 Rpb12 Rpb4 Rpb5 Rpb7 Rpb8 RpII140 RpII15 RpII18 RpII215 RpII33 Top1
+activin receptor complex	 babo put
+myosin III complex	 ninaC
+SCF ubiquitin ligase complex	 ago CG9772 gft lin19 morgue ppa Roc1a Roc1b Roc2 skpA slmb
+axonemal dynein complex	 CG9492 Dhc16F Dhc36C Dhc62B Dhc93AB Dhc98D robl Sdic
+IkappaB kinase complex	 ik2 ird5 key
+cohesin core heterodimer	 san
+signalosome	 alien CSN1a CSN1b CSN3 CSN4 CSN5 CSN6 CSN7 CSN8
+protein phosphatase type 1 complex	 CG13125 flw
+outer kinetochore of condensed chromosome	 BubR1 cmet polo rod
+histone acetyltransferase complex	 dik enok HatB Rpb4 Spt3 Taf10
+syntrophin complex	 Syn1 Syn2 Bap Arp14D Arp66B Arpc3B CG5973 Sop2
+NURF complex	 Caf1 Iswi
+mitochondrial processing peptidase complex	 CG3731
+Sin3 complex	 Bin1 Rpd3 Sin3A
+transcription factor TFIID complex	 bip2 can caz CG6751 ear Gas41 mia nht Spt3 Taf1 Taf10 Taf10b Taf11 Taf12 Taf12L Taf13 Taf2 Taf4 Taf5 Taf6 Taf7 Taf8 Tbp Trf2
+myosin II complex	 CG33098 zip
+nuclear cap binding complex	 Cbp20 Cbp80 Dp E2f Rbf Rbf2
+mitochondrial outer membrane translocase complex	 mge Tom20 Tom34 Tom40 Tom7 Tom70 tomboy20 tomboy40 twin
+ubiquitin ligase complex	 CG9086 slmb
+Golgi transport complex	 fws para
+flotillin complex	 Flo CG7430
+eukaryotic translation initiation factor 4F complex	 4EHP eIF4AIII eIF4G ofs Ca1G cac stj
+nuclear pore	 CG10478 CG11092 CG2158 CG4673 CG7262 CG8086 CG8219 CG8831 emb gcl Gp188 Karybeta3 mbo msk Mtor Nup107 Nup153 Nup154 Nup214 Nup358 Nup44A Nup58 Nup62 Nup98 Pen Ranbp16 Shaq Trn Ulp1
+translation release factor complex	 eRF1 CG16940 Csl4 Dis3 Mtr3 Rrp4 Rrp40 Rrp42 Rrp45 Rrp46 Rrp6 Ski6 Spt5 Spt6
+INO80 complex	 Act5C Arp5 Arp8 Ino80 pho pont rept CG2263 CG5706
+negative cofactor 2 complex	 NC2alpha NC2beta cpa cpb Cct5 Cctgamma CG5525 CG7033 CG8258 Bgb Bro Pebp2beta
+histone methyltransferase complex	 Art4 trx
+microtubule associated complex	 Apc Apc2 asp btv CG10839 CG10845 CG10859 CG1193 CG13930 CG14763 CG1571 CG17150 CG17528 CG3121 CG32392 CG3339 CG6053 CG7051 CG9068 CG9313 CG9492 chb cnn cos Cp190 Dhc1 Dhc16F Dhc36C Dhc62B Dhc64C Dhc93AB Dhc98D Dlc90F Dlic2 Drp1 Eb1 futsch Grip84 jar Klp3A Klp61F Klp67A Map205 Map60 Map85 Mapmodulin msps nop5 nuf robl shi stai stau tau
+pyruvate dehydrogenase complex	 CG11876 CG7024
+cytoplasmic dynein complex	 btv Cdlc2 CG10859 CG13930 CG1571 CG3339 CG6053 CG7051 CG9313 ctp Dhc64C Dlic2 sw MED21 Rpb4
+katanin complex	 CG1193 CG17293 kat80 Sur CG12027 CG31477 CG7211 CG7813
+Hedgehog signaling complex	 ci cos fu
+nuclear origin of replication recognition complex	 dup lat Orc1 Orc2 Orc4 Orc5 Orc6
+clathrin adaptor complex	 cm g lap
+mRNA cleavage stimulating factor complex	 CG2097 CG1076 CG13167 CG5075 CG8310 Vha13 Vha14 Vha26 Vha36 Vha44 Vha55 Vha68 VhaSFD
+catenin complex	 arm
+chromatin assembly complex	 Acf1 asf1 Caf1 Pi3K21B
+translocon complex	 CG13426 CG5885 CG8860 Sec61alpha Sec61beta Sec61gamma Tapdelta Trp1
+delta DNA polymerase complex	 CG12018
+tubulin complex	 alphaTub67C alphaTub84B alphaTub84D alphaTub85E betaTub56D betaTub60D betaTub85D gammaTub23C gammaTub37C
+glycine cleavage complex	 CG3999 CG6415 CG7430 ppl CG12602 CG4624 CG6737 CG7678 CG9013 Vha16 VhaAC39
+mRNA cleavage and polyadenylation specificity factor complex	 CG1957 CG1972 CG5222 CG7698 Clp cpsf
+caspase complex	 Ice
+proteasome regulatory particle	 CG11552 CG5604 CG7257 CG9588 Mov34 Pros45 Pros54 Rpn1 Rpn11 Rpn12 Rpn2 Rpn5 Rpn6 Rpn7 Rpn9 Rpt1 Rpt3 Rpt4
+dynactin complex	 Arp87C CG12042 CG9279 cpa Dmn Gl
+transcriptional repressor complex	 TH1 CG10447
+histone deacetylase complex	 HdacX
+calcineurin complex	 CanA1 CanB CanB2 CG32812
+protein phosphatase type 2A complex	 CG11597 mts tws wdb CG32026
+condensin complex	 barr glu SMC2 Smc5
+COPI vesicle coat	 alphaCop betaCop CG3071 CHOp24 deltaCOP epsilonCOP gammaCop zetaCOP
+protein acetyltransferase complex	 san
+mitochondrial respiratory chain complex III	 CG14482 CG14508 CG17856 CG30354 CG3560 CG3731 CG4169 CG4769 CG7580 ox RFeSP Ucrh
+epsilon DNA polymerase complex	 Mes4 Pole2 RnrL RnrS
+SUMO activating enzyme complex	 Aos1 Uba2
+molybdopterin synthase complex	 CG10238
+brahma complex	 Bap170 Bap26 Bap55 Bap60 brm dalao mor osa p400 Snr1
+eukaryotic translation initiation factor 2B complex	 CG11334
+meprin A complex	 CG5715 CG6696 CG6763 CG6974
+chromatin remodeling complex	 Bap60 brm Caf1 dalao dom Iswi mor Mov34 Rpn11 Rpn12 Rpn5 Rpn6 Rpn7 Rpn9 CG11909 CG14476 CG33080 CG6453 CG7685
+integrin complex	 alphaPS4 alphaPS5 if mew mys scb
+mitochondrial respiratory chain complex II	 CG10219 CG5718 CG6629 CG6666 CG7349 SdhB
+eukaryotic translation elongation factor 1 complex	 eEF1delta Ef1alpha100E Ef1alpha48D Ef1beta Ef1gamma Dg Dyb Dys CG1268 CG7026 CG8029
+kinesin complex	 cana CG10845 cmet cos Kap3 Khc Kif19A Kif3C Klc Klp10A Klp31E Klp3A Klp54D Klp59C Klp59D Klp61F Klp64D Klp67A Klp68D Klp98A ncd neb nod Pat1 pav sub CG2241 Pros45 Pros54 Rpn1 Rpn2 Rpt1 Rpt3 Rpt3R Rpt4 Cdk5 Cdk5alpha
+dystroglycan complex	 Dg CG4389 Thiolase
+protein phosphatase 4 complex	 PPP4R2r
+FACT complex	 dre4 Ssrp
+zeta DNA polymerase complex	 mus205 Gclc Gclm wfs1
+TRAPP complex	 Bet3 Bet5 Trs20 Trs23 Trs31 Trs33 gammaTub23C gammaTub37C Grip84
+proteasome core complex	 CG12161 CG17301 CG17302 CG17331 CG30382 Pros25 Pros26 Pros29 Pros35 Prosalpha3T Prosalpha6 Prosalpha6T Prosalpha7 Prosbeta2 Prosbeta3 Prosbeta4 Prosbeta5 Prosbeta5R1 ProsMA5
+gamma DNA polymerase complex	 tam CG30379 CG3814 Nmda1 Atpalpha CG11703 CG3701 CG5250 JYalpha nrv1 nrv2 nrv3
+insulin receptor complex	 InR blw CG31477 CG5389 sun Ku80
+inaD signaling complex	 FKBP59 Galpha49B inaC inaD ninaC ninaE norpA trp trpl Oscp CG11340 CG12344 CG6927 pHCl

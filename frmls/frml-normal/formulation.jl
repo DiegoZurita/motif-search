@@ -3,9 +3,16 @@ using Cbc
 
 m = Model(solver=CbcSolver())
 
-motify_frequency_description_file = "data/sample1/motify_frequency_description.csv"
-vertices_color_file = "data/sample1/vertices_colors.csv"
-edges_file = "data/sample1/edges.csv"
+
+folder = "../../instancias/SC"
+
+motify_frequency_description_file = "$(folder)/motify-1-355-194.csv"
+vertices_color_file = "$(folder)/vertices_colors.csv"
+edges_file = "$(folder)/edges.csv"
+
+
+
+##############################
 
 motify_frequency_description_data = round.(Int64, readcsv(motify_frequency_description_file))
 number_of_colors = size(motify_frequency_description_data)[2]
@@ -82,6 +89,7 @@ end
 
 
 println(m)
+writeMPS(m, "frml_normal-inteira-motify-1-355-194.mps")
 
 status = solve(m)
 
