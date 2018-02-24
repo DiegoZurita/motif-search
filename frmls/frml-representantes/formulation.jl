@@ -330,7 +330,7 @@ function export_mps(files, ehRelaxado)
 	end
 
 	#exibir_model(m)
-	resolver_modelo(m)
+	resolver_modelo(m)	
 	exibir_resultado_model(model_data)
 end 
 
