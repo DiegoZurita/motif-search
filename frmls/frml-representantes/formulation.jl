@@ -4,11 +4,10 @@ using Cbc
 
 ##########################METHODS########################################
 
-SEM_PAI = 0
-
 
 function _enraizar(adj_list, parents, cur, p) 
-
+	SEM_PAI = 0
+	
 	if parents[cur] != SEM_PAI
 		return
 	end
@@ -131,10 +130,7 @@ function create_model(data, relex)
 	for u in 1:number_of_vertices
 		for v in R[u]
 			key = "$(u)-$(v)"
-			println(key)
-
-
-			if
+			if relex
 				push!(
 					vertices_pos_in_formulation, 
 					( key, @variable(m, basename = key, lowerbound = 0, upperbound = 1) )
@@ -229,7 +225,7 @@ function create_model(data, relex)
 
 					key = "$(i)-$(j)-$(representante)"
 
-				
+					if relex
 						push!(
 							egdes_pos_in_formulation, 
 							( key, @variable(m, basename = key, lowerbound = 0, upperbound = 1) )
@@ -380,15 +376,16 @@ function main()
 
 	for files in instences
 
-		println("files")
-		println(files)
-		println()
+		println("motify: ", files["motify_file_name"])
+		println("edges: ", files["edges_file_name"])
 
 		println("Para o modelo inteiro")
 		export_mps(files, false)
 
-		println("\n\nPara o modelo relaxado")
+		println("Para o modelo relaxado")
 		export_mps(files, true)
+
+		println()
 	end
 end
 
