@@ -84,7 +84,7 @@ function readInput(edges_file, vertices_colors_file, motify_frequency_file)
 
 	##### Enraizar arvore
 	parents = zeros(Int64, number_of_vertices)
-	_enraizar(adjacency_list, parents, 11, -1)
+	_enraizar(adjacency_list, parents, 2, -1)
 
 
 	#### Construir R

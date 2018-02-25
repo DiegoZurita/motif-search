@@ -42,10 +42,6 @@ function create_model(input_data, relex)
 	number_of_vertices = input_data["number_of_vertices"]
 
 
-	println(adjacency_list)
-
-
-
 	###### creating expressions to each color in problem
 	colors_contraints_exprexions = Array{JuMP.GenericAffExpr, 1}(number_of_colors)
 
@@ -118,7 +114,11 @@ function create_model(input_data, relex)
 	end
 
 
-	return m
+	return Dict(
+		"model" => m,
+		"vertices_vars"=> x,
+		"edges_vars"=> egdes_pos_dict
+	)
 end
 
 
@@ -136,8 +136,35 @@ function resolver_modelo(model)
 end
 
 
-function exibir_resultado(model)
+function exibir_resultado(model_data)
+	model = model_data["model"]
+
+	#exibir_modelo(model)
 	println("Objective value: ", getobjectivevalue(model))
+
+	vertices_vars = model_data["vertices_vars"]
+
+	edges_counter = 0
+
+	vertices_counter = 0
+
+	for edge_tuple in model_data["edges_vars"]
+		edge = split(edge_tuple[1])
+
+		start_vertice = parse(Int, edge[1])
+		end_vertice = parse(Int, edge[2])
+
+		#Aresta selecionada
+		if getvalue(edge_tuple[2]) == 1
+			edges_counter = edges_counter + 1
+		end
+	end
+
+	for vertices_var in vertices_vars
+		if getvalue(vertices_var) == 1 
+			vertices_counter = vertices_counter + 1
+		end
+	end
 end
 
 
@@ -179,7 +206,9 @@ function export_mps(files, ehRelaxado)
 
 	input_data = read_input(files["motify"], files["vertices_colors"], files["edges"])
 
-	model = create_model(input_data, ehRelaxado)
+	model_data = create_model(input_data, ehRelaxado)
+
+	model = model_data["model"]
 
 	resolver_modelo(model)
 
@@ -189,7 +218,7 @@ function export_mps(files, ehRelaxado)
 		criar_mps(model, "../../mps/frml_normal-inteira-$(files["motify_file_name"])-$(files["edges_file_name"]).mps")
 	end
 
-	exibir_resultado(model)
+	exibir_resultado(model_data)
 
 end
 
@@ -201,19 +230,19 @@ function main()
 
 	files = instences[1]
 
-	#for files in instences
+	for files in instences
 
-	println("motify: ", files["motify_file_name"])
-	println("edges: ", files["edges_file_name"])
+		println("motify: ", files["motify_file_name"])
+		println("edges: ", files["edges_file_name"])
 
-	println("Para o modelo inteiro")
-	export_mps(files, false)
+		println("Para o modelo inteiro")
+		export_mps(files, false)
 
-	# println("Para o modelo relaxado")
-	# export_mps(files, true)
+		println("Para o modelo relaxado")
+		export_mps(files, true)
 
-	println()
-	#end
+		println()
+	end
 end
 
 
