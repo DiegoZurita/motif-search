@@ -292,6 +292,4 @@ def main():
         print "\n\n"
 
 
-# In[247]:
-
 main()
