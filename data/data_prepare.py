@@ -54,7 +54,6 @@ def kruskal(graph, edges_order_type):
     
     return sorted(minimum_spanning_tree)
 
-
 def ler_rede(rede): 
     file_ = open(rede, "r")
     rows = file_.readlines()
@@ -85,8 +84,6 @@ def ler_rede(rede):
     print len(edges), " edges"
     return {"vertices": vertices, "edges": edges, "vertices_colors": vertices_colors}
 
-
-
 def create_vertices_id(vertices):
     vertices_id = dict()
 
@@ -96,8 +93,6 @@ def create_vertices_id(vertices):
         vertices_id[vertice_] = counter
         counter = counter + 1
     return vertices_id
-
-
 
 def trocar_cores(edges, vertices_colors):
     for edge in edges:
@@ -116,8 +111,6 @@ def trocar_cores(edges, vertices_colors):
                 vertices_colors[end] = vertices_colors[start]
             else: 
                 vertices_colors[start] = vertices_colors[end]
-
-
 
 def rerotular(vertices_colors):
     color = dict()
@@ -159,8 +152,6 @@ def create_adjacency_list(graph, order_type_, vertices_id):
         
     return adjacency_list    
 
-
-#cria arquivos de vertices
 def create_vertices_file(vertices_colors, folder):
     vertices_colors_file = file(folder + "/vertices_colors.csv", "w+")
 
@@ -171,7 +162,6 @@ def create_vertices_file(vertices_colors, folder):
 
     vertices_colors_file.write(",".join(vertices_color_content))
     vertices_colors_file.close()
-
 
 def create_edges_file(adjacency_list, number_of_vertices_, type_, folder):
     edges_file = file(folder + "/edges/" + type_ + "-edges.csv", "w+")
@@ -186,8 +176,7 @@ def create_edges_file(adjacency_list, number_of_vertices_, type_, folder):
     edges_file.write("\n".join(adjacency_list_text))
     edges_file.close()    
 
-
-def create_motifys_files(source, number_of_colors, vertices_colors, folder):
+def create_motifys_files(source, number_of_colors, vertices_colors, folder, rede_name):
            
     motify_file = open(source, "r")
     motify_lines = motify_file.readlines()
@@ -220,11 +209,10 @@ def create_motifys_files(source, number_of_colors, vertices_colors, folder):
                 counter = counter + 1
 
         total_vertices = len(motify_description) - counter
-        motify_frequency_file = open(folder + "/motify/motify-" + i_str + "-" + str(total_vertices) + "-" + str(total_color) + ".csv", "w+")
+        motify_frequency_file = open(folder + "/motify/motify-" + i_str + "-rede-" + rede_name + ".csv", "w+")
 
         motify_frequency_file.write(",".join(color_frequency))
         motify_frequency_file.close()
-
 
 def create_instance(config):
     
@@ -247,44 +235,33 @@ def create_instance(config):
         'edges': set(rede["edges"])
     }
 
-    adjacency_list_random = create_adjacency_list(graph, order_type["random"], vertices_id)
     adjacency_list_reverse = create_adjacency_list(graph, order_type["reverse"], vertices_id)
 
     #criar arquivo de lista de adjacencia
     number_of_vertices  = len(vertices_id)
-    create_edges_file(adjacency_list_random, number_of_vertices, "random", config["folder"])
     create_edges_file(adjacency_list_reverse, number_of_vertices, "reverse", config["folder"])
 
     #create motify files
     vertices_colors = rede["vertices_colors"]
-    create_motifys_files(config["motify"], color_count, vertices_colors, config["folder"])
+    create_motifys_files(config["motify"], color_count, vertices_colors, config["folder"], config["rede_name"])
 
     #create vertices colors file 
     create_vertices_file(vertices_colors, config["folder"])
-
 
 def main():
     configs = [
         {
             "rede": "redes/test.txt",
             "motify": "motify/test_motify.txt",
-            "folder": os.path.join(os.pardir, "instancias/teste")
+            "folder": os.path.join(os.pardir, "instancias/teste"),
+            "rede_name": "teste"
         },
         {
             "rede": "redes/SC_Torque.sif",
             "motify": "motify/SC_Yeast_Complexes_SGD_filtrado.txt",
-            "folder": os.path.join(os.pardir, "instancias/SC")
+            "folder": os.path.join(os.pardir, "instancias/SC"),
+            "rede_name": "SC"
         }
-#         {
-#             "rede": "redes/HomoSapiens_Torque.sif",
-#             "motify": "motify/HS_Human_Complexes_CORUM_filtrado.txt",
-#             "folder": os.path.join(os.pardir, "instancias/HS")
-#         }
-#         {
-#             "rede": "redes/DM_Torque.sif",
-#             "folder": os.path.join(os.pardir, "instancias/DM"),
-#             "motify": "motify/DM_Fly_Complexes_GO_filtrado.txt"
-#         }
     ]
 
     for config in configs:

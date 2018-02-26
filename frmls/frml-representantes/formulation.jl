@@ -1,8 +1,8 @@
+include("../commom.jl")
+using Commom
+
 using JuMP
 using Cbc
-
-
-##########################METHODS########################################
 
 
 function _enraizar(adj_list, parents, cur, p) 
@@ -19,11 +19,9 @@ function _enraizar(adj_list, parents, cur, p)
 	end
 end
 
-
 function _getVericeColor(u, vertices_colors) 
 	return round.(Int64, vertices_colors[u])
 end
-
 
 function _constructR(parents, u, motify_frequency, vertices_colors)
 
@@ -56,52 +54,35 @@ function ehRaiz(vertice, parents)
 end
 
 function readInput(edges_file, vertices_colors_file, motify_frequency_file)
-	edges_file = open(edges_file)
-	vertices_colors = readcsv(vertices_colors_file)
-	motify_frequency = readcsv(motify_frequency_file)
 
-	number_of_colors = size(motify_frequency)[2]
+	input_data = Commom.parse_input(edges_file, vertices_colors_file, motify_frequency_file)
 
 	##### Criar estrtura que agrupa vertices por cor
-	vertices_by_color = [Int64[] for i = 1:number_of_colors]
+	vertices_by_color = [Int64[] for i = 1:input_data["number_of_colors"]]
 
-	for i = 1:size(vertices_colors)[2]
-		push!(vertices_by_color[_getVericeColor(i, vertices_colors)], i)
+	for i = 1:size(input_data["vertices_colors"])[2]
+		push!(vertices_by_color[_getVericeColor(i, input_data["vertices_colors"])], i)
 	end 
-
-	#### criar lista de adjacencia
-	edges_file_lines = readlines(edges_file)
-
-	number_of_vertices = size(edges_file_lines)[1]
-
-	adjacency_list = Array{Array{Int64}}(number_of_vertices)
-
-	for i = 1:number_of_vertices	
-		adjacency_list[i] = [parse(Int, ss) for ss in split(edges_file_lines[i])]
-	end 
-
-	close(edges_file)
 
 	##### Enraizar arvore
-	parents = zeros(Int64, number_of_vertices)
-	_enraizar(adjacency_list, parents, 2, -1)
+	parents = zeros(Int64, input_data["number_of_vertices"])
+	_enraizar(input_data["adjacency_list"], parents, 2, -1)
 
 
 	#### Construir R
-	R = Array{Array{Int64}}(number_of_vertices)
+	R = Array{Array{Int64}}(input_data["number_of_vertices"])
 
-	for i in 1:number_of_vertices
-		R[i] = _constructR(parents, i, motify_frequency, vertices_colors)
+	for i in 1:input_data["number_of_vertices"]
+		R[i] = _constructR(parents, i, input_data["motify_frequency"], input_data["vertices_colors"])
 	end
 
 	return Dict(
-		"edges_file" => edges_file, 
-		"vertices_colors" => vertices_colors, 
-		"motify_frequency" => motify_frequency,
-		"number_of_colors" => number_of_colors,
+		"vertices_colors" => input_data["vertices_colors"],
+		"motify_frequency" => input_data["motify_frequency"],
+		"number_of_colors" => input_data["number_of_colors"],
+		"number_of_vertices" => input_data["number_of_vertices"],
+		"adjacency_list" => input_data["adjacency_list"],
 		"vertices_by_color" => vertices_by_color,
-		"number_of_vertices" => number_of_vertices,
-		"adjacency_list" => adjacency_list,
 		"parents" => parents,
 		"R" => R
 	)
@@ -109,7 +90,6 @@ end
 
 function create_model(data, relex)
 
-	edges_file = data["edges_file"]
 	vertices_colors = data["vertices_colors"]
 	motify_frequency = data["motify_frequency"]
 	number_of_colors = data["number_of_colors"]
@@ -127,6 +107,8 @@ function create_model(data, relex)
 
 	vertices_pos_in_formulation = Tuple{String, JuMP.Variable}[]
 
+	number_of_vertices_vars = 0
+
 	for u in 1:number_of_vertices
 		for v in R[u]
 			key = "$(u)-$(v)"
@@ -142,8 +124,9 @@ function create_model(data, relex)
 				)
 			end
 
-
 			new_var = vertices_pos_in_formulation[end][2]
+
+			number_of_vertices_vars = number_of_vertices_vars + 1
 
 			setname(new_var, key)
 		end
@@ -194,6 +177,9 @@ function create_model(data, relex)
 
 
 	### Restricao 3
+
+	vertice_var_que_tem_cor_no_motify = 0
+
 	for i = 1:number_of_colors
 
 		#color restrcition
@@ -202,6 +188,13 @@ function create_model(data, relex)
 		for vertice in vertices_by_color[i]
 			for representante in R[vertice]
 				#println("vertice ", vertice , " representadi por ", representante)
+
+				
+				if motify_frequency[i] == 1
+					vertice_var_que_tem_cor_no_motify = vertice_var_que_tem_cor_no_motify + 1
+				end
+
+
 				c += vertices_pos_dict["$(vertice)-$(representante)"]
 			end
 		end
@@ -213,6 +206,8 @@ function create_model(data, relex)
 
 	### Restricao 4
 	egdes_pos_in_formulation = Tuple{String, JuMP.Variable}[]
+
+	number_of_edges_vars = 0
 
 	for i = 1:number_of_vertices
 		#para cada aresta
@@ -246,6 +241,7 @@ function create_model(data, relex)
 
 					push!(edges_represented_by[representante], (i, j))
 
+					number_of_edges_vars = number_of_edges_vars + 1
 				end
 			end
 		end
@@ -273,49 +269,12 @@ function create_model(data, relex)
 	return Dict(
 		"model" => m,
 		"edges_vars" => egdes_pos_dict,
-		"vertices_vars" => vertices_pos_dict
+		"vertices_vars" => vertices_pos_dict,
+		"number_of_edges_vars" => number_of_edges_vars,
+		"number_of_vertices_vars" => number_of_vertices_vars,
+		"vertice_var_que_tem_cor_no_motify" => vertice_var_que_tem_cor_no_motify
 	)
 end
-
-function create_mps(model, name)
-	writeMPS(model, name)
-end
-
-
-function exibir_model(model)
-	println("Model: ", model)
-end
-
-function resolver_modelo(model)
-	solve(model)
-end
-
-function exibir_resultado_model(model_data)
-
-	m = model_data["model"]
-	vertices_pos_dict = model_data["vertices_vars"]
-	egdes_pos_dict = model_data["edges_vars"]
-
-	println("Objective value: ", getobjectivevalue(m))
-
-	# for r in vertices_pos_dict
-	# 	val = getvalue(r[2])
-
-	# 	if val != 0
-	# 		println(getname(r[2]), " : ", val)
-	# 	end
-	# end
-
-	# for r in egdes_pos_dict
-
-	# 	val = getvalue(r[2])
-
-	# 	if val != 0
-	# 		println(getname(r[2]), " : ", val)
-	# 	end
-	# end
-end
-
 
 function export_mps(files, ehRelaxado)
 	read_data_result = readInput(files["edges"], files["vertices_colors"], files["motify"])
@@ -324,55 +283,27 @@ function export_mps(files, ehRelaxado)
 	m = model_data["model"]
 
 	if ehRelaxado
-		create_mps(m, "../../mps/frml_representante-relaxado-$(files["motify_file_name"])-$(files["edges_file_name"]).mps")
+
+			#"../../mps/frml_normal-relaxado-$(files["motify_file_name"])-$(files["edges_file_name"])-$(input_data["number_of_vertices"])_vertices-$(input_data["number_of_colors"])_cores-$(model_data["number_of_edges"])_arestas-$(model_data["numero_de_vertices_que_nao_tem_cor_no_motify"])_vertices_nao_tem_cor_no_motify.mps"
+		Commom.create_mps(
+			m,
+			"../../mps/frml_representante-relaxado-$(files["motify_file_name"])-$(files["edges_file_name"])-$(read_data_result["number_of_vertices"])_vertices-$(read_data_result["number_of_colors"])_cores-$(model_data["number_of_edges_vars"])_variaveis_de_arestas-$(model_data["number_of_vertices_vars"])_variaveis_de_vertices-$(model_data["vertice_var_que_tem_cor_no_motify"])_variaveis_de_vertice_que_tem_cor_no_motify.mps"
+		)
 	else
-		create_mps(m, "../../mps/frml_representante-inteira-$(files["motify_file_name"])-$(files["edges_file_name"]).mps")
+		Commom.create_mps(
+			m,
+			"../../mps/frml_representante-inteira-$(files["motify_file_name"])-$(files["edges_file_name"])-$(read_data_result["number_of_vertices"])_vertices-$(read_data_result["number_of_colors"])_cores-$(model_data["number_of_edges_vars"])_variaveis_de_arestas-$(model_data["number_of_vertices_vars"])_variaveis_de_vertices-$(model_data["vertice_var_que_tem_cor_no_motify"])_variaveis_de_vertice_que_tem_cor_no_motify.mps"
+		)
 	end
 
-	#exibir_model(m)
-	resolver_modelo(m)	
-	exibir_resultado_model(model_data)
+	#Commom.exibir_model(m)
+	Commom.resolver_modelo(m)	
+	Commom.exibir_resultado(m)
 end 
-
-
-function get_instences(instancias_folder)
-	instancia_dirs = readdir(instancias_folder)
-
-	files_dict = []
-
-	for instancia_dir in instancia_dirs
-
-		edges_folder_path = "$(instancias_folder)/$(instancia_dir)/edges"
-		motify_folder_path = "$(instancias_folder)/$(instancia_dir)/motify"
-
-		motifys_files_path = readdir(motify_folder_path)
-
-		for edge_file_path in readdir(edges_folder_path)
-
-			for motify_file_path in motifys_files_path
-
-				push!(
-					files_dict,
-					Dict(
-						"edges" => "$(edges_folder_path)/$(edge_file_path)",
-						"motify" => "$(motify_folder_path)/$(motify_file_path)",
-						"vertices_colors" => "$(instancias_folder)/$(instancia_dir)/vertices_colors.csv",
-						"edges_file_name" => edge_file_path,
-						"motify_file_name" => motify_file_path
-					)
-				)
-			end
-		end
-	end	
-
-	return files_dict
-end
-
 
 function main()
 
-
-	instences = get_instences("../../instancias")
+	instences = Commom.get_instences("../../instancias")
 
 	for files in instences
 
@@ -388,7 +319,6 @@ function main()
 		println()
 	end
 end
-
 
 
 main()
