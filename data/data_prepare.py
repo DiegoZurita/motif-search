@@ -176,43 +176,47 @@ def create_edges_file(adjacency_list, number_of_vertices_, type_, folder):
     edges_file.write("\n".join(adjacency_list_text))
     edges_file.close()    
 
-def create_motifys_files(source, number_of_colors, vertices_colors, folder, rede_name):
+def create_motifys_files(config, number_of_colors, vertices_colors):
+
+    folder = config["folder"]
+    rede_name = config["rede_name"]
            
-    motify_file = open(source, "r")
+    motify_file = open(config["motify"], "r")
     motify_lines = motify_file.readlines()
+
+    motifys_selected = 0
     
-    for i in xrange(len(motify_lines)):    
-        counter = 0
+    for i in xrange(len(motify_lines)):
 
-        motify_sample = motify_lines[i]
-
-        motify_parse = re.split(r'\t+', motify_sample)
+        motify_line = motify_lines[i]
+        motify_parse = re.split(r'\t+', motify_line)
+        # ["vertice1", "vertice2", "vertice3"]
         motify_description = motify_parse[1].split()
 
-        i_str = str(i + 1)
+        num_vertices_in_motify = len(motify_description)
+
+        if num_vertices_in_motify <= config["min_motify_vertices"]:
+            continue
+
+        motifys_selected = motifys_selected + 1
 
         color_frequency = ["0"] * number_of_colors
-        total_color = 0
 
         for vertice_ in motify_description:
-
             if vertice_ in vertices_colors: 
                 color = vertices_colors[vertice_]
 
                 frequency = int(color_frequency[color])
-
-                if frequency == 0:
-                    total_color = total_color + 1
-
                 color_frequency[color] = str(frequency + 1)
-            else:
-                counter = counter + 1
-
-        total_vertices = len(motify_description) - counter
-        motify_frequency_file = open(folder + "/motify/motify-" + i_str + "-rede-" + rede_name + ".csv", "w+")
+                
+        motify_frequency_file = open(folder + "/motify/motify-" + str(i + 1) + "-rede-" + rede_name + "_" + str(num_vertices_in_motify) + "-itens-no-motify.csv", "w+")
 
         motify_frequency_file.write(",".join(color_frequency))
         motify_frequency_file.close()
+    
+    motify_file.close()
+
+    print str(motifys_selected), " motifys criados para a rede ", rede_name, " com no minimo ", config["min_motify_vertices"], " cores"
 
 def create_instance(config):
     
@@ -243,7 +247,7 @@ def create_instance(config):
 
     #create motify files
     vertices_colors = rede["vertices_colors"]
-    create_motifys_files(config["motify"], color_count, vertices_colors, config["folder"], config["rede_name"])
+    create_motifys_files(config, color_count, vertices_colors)
 
     #create vertices colors file 
     create_vertices_file(vertices_colors, config["folder"])
@@ -254,13 +258,15 @@ def main():
             "rede": "redes/test.txt",
             "motify": "motify/test_motify.txt",
             "folder": os.path.join(os.pardir, "instancias/teste"),
-            "rede_name": "teste"
+            "rede_name": "teste",
+            "min_motify_vertices": 1
         },
         {
             "rede": "redes/SC_Torque.sif",
             "motify": "motify/SC_Yeast_Complexes_SGD_filtrado.txt",
             "folder": os.path.join(os.pardir, "instancias/SC"),
-            "rede_name": "SC"
+            "rede_name": "SC",
+            "min_motify_vertices": 30
         }
     ]
 
