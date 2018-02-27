@@ -1,0 +1,4 @@
+cores_dos_vertices: "/home/diego/repos/motif-search/instancias/DM/COLORS_Drosophila_melanogaster.csv"
+arvore: "/home/diego/repos/motif-search/instancias/DM/GRAPH_Drosophila_melanogaster_nV_6594_nC269.csv"
+motify: "/home/diego/repos/motif-search/instancias/DM/MOTIF_mitochondrial_FOR_GRAPH_Drosophila_melanogaster_name_mitochondrial_removedProteins_0_size_40_colors_38_candidates_1865.csv"
+output: "DM_MOTIF_mitochondrial"

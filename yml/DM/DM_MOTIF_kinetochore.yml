@@ -1,0 +1,4 @@
+cores_dos_vertices: "/home/diego/repos/motif-search/instancias/DM/COLORS_Drosophila_melanogaster.csv"
+arvore: "/home/diego/repos/motif-search/instancias/DM/GRAPH_Drosophila_melanogaster_nV_6594_nC269.csv"
+motify: "/home/diego/repos/motif-search/instancias/DM/MOTIF_kinetochore_FOR_GRAPH_Drosophila_melanogaster_name_kinetochore_removedProteins_2_size_64_colors_64_candidates_1930.csv"
+output: "DM_MOTIF_kinetochore"

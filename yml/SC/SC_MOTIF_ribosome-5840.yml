@@ -1,0 +1,4 @@
+cores_dos_vertices: "/home/diego/repos/motif-search/instancias/SC/COLORS_Saccharomyces_cerevisiae.csv"
+arvore: "/home/diego/repos/motif-search/instancias/SC/GRAPH_Saccharomyces_cerevisiae_nV_5385_nC216.csv"
+motify: "/home/diego/repos/motif-search/instancias/SC/MOTIF_ribosome-5840_FOR_GRAPH_Saccharomyces_cerevisiae_name_ribosome-5840_removedProteins_7_size_135_colors_111_candidates_3461.csv"
+output: "SC_MOTIF_ribosome-5840"

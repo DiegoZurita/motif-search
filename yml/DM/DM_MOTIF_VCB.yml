@@ -1,0 +1,4 @@
+cores_dos_vertices: "/home/diego/repos/motif-search/instancias/DM/COLORS_Drosophila_melanogaster.csv"
+arvore: "/home/diego/repos/motif-search/instancias/DM/GRAPH_Drosophila_melanogaster_nV_6594_nC269.csv"
+motify: "/home/diego/repos/motif-search/instancias/DM/MOTIF_VCB_FOR_GRAPH_Drosophila_melanogaster_name_VCB_removedProteins_0_size_34_colors_34_candidates_1502.csv"
+output: "DM_MOTIF_VCB"

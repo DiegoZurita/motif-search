@@ -1,0 +1,4 @@
+cores_dos_vertices: "/home/diego/repos/motif-search/instancias/HS/COLORS_Homo_sapiens.csv"
+arvore: "/home/diego/repos/motif-search/instancias/HS/GRAPH_Homo_sapiens_nV_7664_nC318.csv"
+motify: "/home/diego/repos/motif-search/instancias/HS/MOTIF_Mediator_FOR_GRAPH_Homo_sapiens_name_Mediator_removedProteins_0_size_33_colors_33_candidates_1794.csv"
+output: "HS_MOTIF_Mediator"

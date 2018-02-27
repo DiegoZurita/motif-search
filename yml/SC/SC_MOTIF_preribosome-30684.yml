@@ -1,0 +1,4 @@
+cores_dos_vertices: "/home/diego/repos/motif-search/instancias/SC/COLORS_Saccharomyces_cerevisiae.csv"
+arvore: "/home/diego/repos/motif-search/instancias/SC/GRAPH_Saccharomyces_cerevisiae_nV_5385_nC216.csv"
+motify: "/home/diego/repos/motif-search/instancias/SC/MOTIF_preribosome-30684_FOR_GRAPH_Saccharomyces_cerevisiae_name_preribosome-30684_removedProteins_0_size_63_colors_63_candidates_2083.csv"
+output: "SC_MOTIF_preribosome-30684"

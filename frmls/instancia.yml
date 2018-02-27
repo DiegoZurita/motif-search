@@ -1,4 +1,0 @@
-motify: "../../instancias/SC/motify/motify-2-rede-SC_132-itens-no-motify.csv"
-cores_dos_vertices: "../../instancias/SC/vertices_colors.csv"
-arvore: "../../instancias/SC/edges/reverse-edges.csv"
-output: "primeiro_aqui_teste"

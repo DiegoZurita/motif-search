@@ -1,0 +1,4 @@
+cores_dos_vertices: "/home/diego/repos/motif-search/instancias/DM/COLORS_Drosophila_melanogaster.csv"
+arvore: "/home/diego/repos/motif-search/instancias/DM/GRAPH_Drosophila_melanogaster_nV_6594_nC269.csv"
+motify: "/home/diego/repos/motif-search/instancias/DM/MOTIF_microtubule_FOR_GRAPH_Drosophila_melanogaster_name_microtubule_removedProteins_10_size_46_colors_46_candidates_1733.csv"
+output: "DM_MOTIF_microtubule"

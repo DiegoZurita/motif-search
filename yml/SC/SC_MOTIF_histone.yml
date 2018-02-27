@@ -1,0 +1,4 @@
+cores_dos_vertices: "/home/diego/repos/motif-search/instancias/SC/COLORS_Saccharomyces_cerevisiae.csv"
+arvore: "/home/diego/repos/motif-search/instancias/SC/GRAPH_Saccharomyces_cerevisiae_nV_5385_nC216.csv"
+motify: "/home/diego/repos/motif-search/instancias/SC/MOTIF_histone_FOR_GRAPH_Saccharomyces_cerevisiae_name_histone_removedProteins_2_size_41_colors_34_candidates_1610.csv"
+output: "SC_MOTIF_histone"
