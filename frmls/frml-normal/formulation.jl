@@ -115,12 +115,12 @@ function export_mps(files, ehRelaxado)
 	if ehRelaxado
 		Commom.create_mps(
 			model, 
-			"../../mps/frml_normal-relaxado-$(files["motify_file_name"])-$(files["edges_file_name"])-$(input_data["number_of_vertices"])_vertices-$(input_data["number_of_colors"])_cores-$(model_data["number_of_edges"])_arestas-$(model_data["numero_de_vertices_que_nao_tem_cor_no_motify"])_vertices_nao_tem_cor_no_motify.mps"
+			"../../mps/frml-normal-relaxada-$(files["output"]).mps"
 		)
 	else
 		Commom.create_mps(
 			model, 
-			"../../mps/frml_normal-inteira-$(files["motify_file_name"])-$(files["edges_file_name"])-$(input_data["number_of_vertices"])_vertices-$(input_data["number_of_colors"])_cores-$(model_data["number_of_edges"])_arestas-$(model_data["numero_de_vertices_que_nao_tem_cor_no_motify"])_vertices_nao_tem_cor_no_motify.mps"
+			"../../mps/frml-normal-inteiro-$(files["output"]).mps"
 		)
 	end
 
@@ -132,23 +132,20 @@ end
 function main()
 
 
-	instences = Commom.get_instences("../../instancias")
+	files = Commom.get_instences(ARGS[1])
 
-	files = instences[1]
+	println("Formulação normal")
 
-	for files in instences
+	println("motify: ", files["motify_file_name"])
+	println("edges: ", files["edges_file_name"])
 
-		println("motify: ", files["motify_file_name"])
-		println("edges: ", files["edges_file_name"])
+	println("Para o modelo inteiro")
+	export_mps(files, false)
 
-		println("Para o modelo inteiro")
-		export_mps(files, false)
+	println("Para o modelo relaxado")
+	export_mps(files, true)
 
-		println("Para o modelo relaxado")
-		export_mps(files, true)
-
-		println()
-	end
+	println()
 end
 
 main()

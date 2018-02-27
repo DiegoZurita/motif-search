@@ -283,41 +283,39 @@ function export_mps(files, ehRelaxado)
 	m = model_data["model"]
 
 	if ehRelaxado
-
-			#"../../mps/frml_normal-relaxado-$(files["motify_file_name"])-$(files["edges_file_name"])-$(input_data["number_of_vertices"])_vertices-$(input_data["number_of_colors"])_cores-$(model_data["number_of_edges"])_arestas-$(model_data["numero_de_vertices_que_nao_tem_cor_no_motify"])_vertices_nao_tem_cor_no_motify.mps"
 		Commom.create_mps(
-			m,
-			"../../mps/frml_representante-relaxado-$(files["motify_file_name"])-$(files["edges_file_name"])-$(read_data_result["number_of_vertices"])_vertices-$(read_data_result["number_of_colors"])_cores-$(model_data["number_of_edges_vars"])_variaveis_de_arestas-$(model_data["number_of_vertices_vars"])_variaveis_de_vertices-$(model_data["vertice_var_que_tem_cor_no_motify"])_variaveis_de_vertice_que_tem_cor_no_motify.mps"
+			m, 
+			"../../mps/frml-representantes-relaxada-$(files["output"]).mps"
 		)
 	else
 		Commom.create_mps(
-			m,
-			"../../mps/frml_representante-inteira-$(files["motify_file_name"])-$(files["edges_file_name"])-$(read_data_result["number_of_vertices"])_vertices-$(read_data_result["number_of_colors"])_cores-$(model_data["number_of_edges_vars"])_variaveis_de_arestas-$(model_data["number_of_vertices_vars"])_variaveis_de_vertices-$(model_data["vertice_var_que_tem_cor_no_motify"])_variaveis_de_vertice_que_tem_cor_no_motify.mps"
+			m, 
+			"../../mps/frml-representantes-inteiro-$(files["output"]).mps"
 		)
 	end
 
-	#Commom.exibir_model(m)
 	Commom.resolver_modelo(m)	
 	Commom.exibir_resultado(m)
 end 
 
 function main()
 
-	instences = Commom.get_instences("../../instancias")
 
-	for files in instences
 
-		println("motify: ", files["motify_file_name"])
-		println("edges: ", files["edges_file_name"])
+	files = Commom.get_instences(ARGS[1])
 
-		println("Para o modelo inteiro")
-		export_mps(files, false)
+	println("Formulação representantes")
+	
+	println("motify: ", files["motify_file_name"])
+	println("edges: ", files["edges_file_name"])
 
-		println("Para o modelo relaxado")
-		export_mps(files, true)
+	println("Para o modelo inteiro")
+	export_mps(files, false)
 
-		println()
-	end
+	println("Para o modelo relaxado")
+	export_mps(files, true)
+
+	println()
 end
 
 
