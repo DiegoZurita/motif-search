@@ -130,7 +130,7 @@ end
 function main()
 
 
-	all_files = Commom.get_instences(ARGS[1])
+	all_files = Commom.get_instences(ARGS[1] ARGS[2])
 
 	println("Formulação normal")
 

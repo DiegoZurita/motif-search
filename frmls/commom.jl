@@ -9,6 +9,7 @@ export exibir_model
 export get_instences
 export exibir_resultado
 export parse_input
+export obter_resultado
 
 
 function parse_input(edges_file, vertices_colors_file, motify_frequency_file)
@@ -46,6 +47,10 @@ function exibir_model(model)
 	println("Model: ", model)
 end
 
+function obter_resultado(model)
+	return getobjectivevalue(model)
+end
+
 function create_mps(model, name)
 	writeMPS(model, name)
 end
@@ -54,11 +59,9 @@ function resolver_modelo(model)
 	solve(model)
 end
 
-function get_instences(parametros_path)
+function get_instences(ROOT_FOLDER,parametros_path)
 
-	listas_parametros = readlines(parametros_path)
-
-	ROOT_FOLDER = "/home/diego/repos/motif-search/generated-instances"
+	listas_parametros = readlines("$(ROOT_FOLDER)/$(parametros_path)")
 
 
 	files_dict = []
