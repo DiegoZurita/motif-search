@@ -22,12 +22,16 @@ function create_model(input_data, relex)
 	end
 
 
+	is_vertice_in_problem = Array{Bool}(number_of_vertices)
+
+
 	#Vertices
 	if relex
 		@variable(m, 0 <= x[1:number_of_vertices] <= 1)
 	else
 		@variable(m, x[1:number_of_vertices], Bin)
 	end
+
 
 
 	#Edges
@@ -37,7 +41,6 @@ function create_model(input_data, relex)
 	for i in 1:number_of_vertices
 		for j in adjacency_list[i]
 			if j > i 
-
 				key = "$(i) $(j)"
 
 				if relex
@@ -63,14 +66,8 @@ function create_model(input_data, relex)
 	@objective(m, Min, sum(x) - edges_sum_expr)
 
 
-	numero_de_vertices_que_nao_tem_cor_no_motify = 0
-
 	for i = 1:number_of_vertices
 		vertice_color = round.(Int64, vertices_color_data[i])
-
-		if motify_frequency_description_data[vertice_color] == 0
-			numero_de_vertices_que_nao_tem_cor_no_motify = numero_de_vertices_que_nao_tem_cor_no_motify + 1
-		end
 
 		colors_contraints_exprexions[vertice_color] += x[i]
 	end
@@ -99,18 +96,19 @@ function create_model(input_data, relex)
 		"model" => m,
 		"vertices_vars"=> x,
 		"edges_vars"=> egdes_pos_dict,
-		"number_of_edges" => number_of_edges,
-		"numero_de_vertices_que_nao_tem_cor_no_motify" => numero_de_vertices_que_nao_tem_cor_no_motify
+		"number_of_edges" => number_of_edges
 	)
 end
 
 function export_mps(files, ehRelaxado)
 
 	input_data = Commom.parse_input(files["edges"], files["vertices_colors"], files["motify"])
-
+	println("Criando modelo ..")
 	model_data = create_model(input_data, ehRelaxado)
 
 	model = model_data["model"]	
+
+	println("Criando mps ..")
 
 	if ehRelaxado
 		Commom.create_mps(
@@ -124,28 +122,32 @@ function export_mps(files, ehRelaxado)
 		)
 	end
 
-	Commom.resolver_modelo(model)
-	Commom.exibir_resultado(model)
+	#Commom.resolver_modelo(model)
+	#Commom.exibir_resultado(model)
 
 end
 
 function main()
 
 
-	files = Commom.get_instences(ARGS[1])
+	all_files = Commom.get_instences(ARGS[1])
 
 	println("Formulação normal")
 
-	println("motify: ", files["motify_file_name"])
-	println("edges: ", files["edges_file_name"])
 
-	println("Para o modelo inteiro")
-	export_mps(files, false)
+	for files in all_files
 
-	println("Para o modelo relaxado")
-	export_mps(files, true)
+		println("motify: ", files["motify_file_name"])
+		println("edges: ", files["edges_file_name"])
 
-	println()
+		println("Para o modelo inteiro")
+		export_mps(files, false)
+
+		println("Para o modelo relaxado")
+		export_mps(files, true)
+
+		println()
+	end
 end
 
 main()

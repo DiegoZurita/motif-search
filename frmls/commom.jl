@@ -54,18 +54,40 @@ function resolver_modelo(model)
 	solve(model)
 end
 
-function get_instences(yml_path)
+function get_instences(parametros_path)
 
-	data = YAML.load(open(yml_path))
+	listas_parametros = readlines(parametros_path)
 
-	return Dict(
-		"edges" => data["arvore"],
-		"motify" => data["motify"],
-		"vertices_colors" => data["cores_dos_vertices"],
-		"edges_file_name" => data["arvore"],
-		"motify_file_name" => data["motify"],
-		"output" => data["output"],
-	)
+	ROOT_FOLDER = "/home/diego/repos/motif-search/generated-instances"
+
+
+	files_dict = []
+
+
+	for listas_parametro in listas_parametros
+
+		parametros = split(listas_parametro)
+
+		lista_de_adajacencia = replace(parametros[1], "ROOT", ROOT_FOLDER)
+		cores_do_vertice = replace(parametros[2], "ROOT", ROOT_FOLDER)
+		motify = replace(parametros[3], "ROOT", ROOT_FOLDER)
+		output = parametros[4]
+
+
+		push!(
+			files_dict,
+			Dict(
+				"edges" => lista_de_adajacencia,
+				"motify" => motify,
+				"vertices_colors" => cores_do_vertice,
+				"edges_file_name" => lista_de_adajacencia,
+				"motify_file_name" => motify,
+				"output" => output,
+			)
+		)
+	end
+
+	return files_dict
 end
 
 end

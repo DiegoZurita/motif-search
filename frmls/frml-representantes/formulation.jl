@@ -278,9 +278,12 @@ end
 
 function export_mps(files, ehRelaxado)
 	read_data_result = readInput(files["edges"], files["vertices_colors"], files["motify"])
+	println("Criando modelo ..")
 	model_data = create_model(read_data_result, ehRelaxado)
 
 	m = model_data["model"]
+
+	println("Criando mps ..")
 
 	if ehRelaxado
 		Commom.create_mps(
@@ -294,28 +297,30 @@ function export_mps(files, ehRelaxado)
 		)
 	end
 
-	Commom.resolver_modelo(m)	
-	Commom.exibir_resultado(m)
+	#Commom.resolver_modelo(m)	
+	#Commom.exibir_resultado(m)
 end 
 
 function main()
 
 
 
-	files = Commom.get_instences(ARGS[1])
+	all_files = Commom.get_instences(ARGS[1])
 
 	println("Formulação representantes")
-	
-	println("motify: ", files["motify_file_name"])
-	println("edges: ", files["edges_file_name"])
 
-	println("Para o modelo inteiro")
-	export_mps(files, false)
+	for files in all_files	
+		println("motify: ", files["motify_file_name"])
+		println("edges: ", files["edges_file_name"])
 
-	println("Para o modelo relaxado")
-	export_mps(files, true)
+		println("Para o modelo inteiro")
+		export_mps(files, false)
 
-	println()
+		println("Para o modelo relaxado")
+		export_mps(files, true)
+
+		println()
+	end
 end
 
 
